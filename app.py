@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import os
 
 app = Flask(__name__)
-DATABASE_URL = os.environ.get("API_KEY")
+DATABASE_URL = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_DATABASE_URI'] = str(DATABASE_URL)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = 'idk'
