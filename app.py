@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 DATABASE_URL = os.environ.get("API_KEY")
-app.config['SQLALCHEMY_DATABASE_URI'] = '{DATABASE_URL}'
+app.config['SQLALCHEMY_DATABASE_URI'] = f"{DATABASE_URL}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = 'idk'
 
