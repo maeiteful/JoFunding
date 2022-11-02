@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Submit
+{% endblock %}
+
+{% block main %}
+
+    {% if error == True%}
+    <div class="alert alert-danger" role="alert">
+    {{msg}}
+    </div>
+    {%endif%}
+
+    <form class="form-horizontal" action="/submit" method="post" enctype="multipart/form-data">             
+          <div class="container">
+            <div class="row">
+              <div class="col">
+              </div>
+              <div class="col-6">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+                  </div>
+              </div>
+              <div class="col">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+              </div>
+              <div class="col-6">
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Photo</label>
+                    <input class="form-control" type="file" name="photo" id="photo">
+                  </div>
+              </div>
+              <div class="col">
+              </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                      <label for="exampleFormControlTextarea1" class="form-label">About your business</label>
+                      <textarea class="form-control" id="about" name="about" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="col">
+                </div>
+              </div>
+          </div>
+
+          <button id="submit" class="btn btn-primary" type="submit">Submit</button>
+    </form>
+
+
+{% endblock %}
