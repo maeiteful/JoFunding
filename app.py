@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash, session
+from flask import Flask, jsonify, render_template, request, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -49,12 +49,13 @@ class Images:
 
 with app.app_context():
     imagelist =[]
-    imginfolist=[]
+    imageids= []
+    imginfolist={}
     def load():
         imgs = Post.query.all()
         for img in imgs:
             d=base64.b64encode(img.photo).decode("utf-8")
-            imagelist.append(Images(img.email,d,img.about))
+            imginfolist[img.id] = [img.email,d,img.about]
     load()
     
 
@@ -68,8 +69,11 @@ def after_request(response):
 
 @app.route("/")
 def index():
-    return render_template("index.html", images=imagelist)
+    return render_template("index.html", img=imginfolist)
 
+@app.route("/api")
+def api():
+    return jsonify(imginfolist)
 @app.route("/logout")
 def logout():
     """Log user out"""

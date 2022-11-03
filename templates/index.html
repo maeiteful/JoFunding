@@ -25,26 +25,39 @@
 
 <div class="album py-5 bg-light">
   <div class="container">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-      {% for image in images %}
-      <div class="col">
-        <div class="card shadow-sm">
-          <img src="data:;base64,{{ image.image }}" class="card-img-top" width="300" height="400">
-          <div class="card-body">
-            <p class="card-text">{{ image.about }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              </div>
-              <small class="text-muted">9 mins</small>
-            </div>
-          </div>
-        </div>
-       </div>
-       {% endfor %}
+    <div id="objects" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
       </div>
     </div>
   </div>
 </div>
+  <script>
+          url = "/api";
+          string = ""
+          axios.get(url)
+          .then(function(response) {
+          var data = response.data;
+          Object.keys(data).forEach(function(key){
+            string += `<div class="col">
+              <div class="card shadow-sm">
+                <img src="data:;base64,${data[key][1]}" class="card-img-top" width="300" height="400">
+                <div class="card-body">
+                  <p class="card-text">${data[key][2]}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              </div>
+             </div>`
+          })
+          document.getElementById('objects').innerHTML= string;
+          
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 
+  </script>
 {% endblock %}
