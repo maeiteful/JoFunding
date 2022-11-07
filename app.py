@@ -184,4 +184,3 @@ def login():
         session["user_id"] = usernamecheck.id
         flash("Login successful")
         return redirect("/")
-        
