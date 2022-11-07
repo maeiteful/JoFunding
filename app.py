@@ -1,3 +1,4 @@
+import json
 from flask import Flask, jsonify, render_template, request, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
@@ -54,13 +55,17 @@ with app.app_context():
     imagelist =[]
     imageids= []
     imginfolist={}
-    json= None
+    jjson = {}
     def load():
         imgs = Post.query.all()
         for img in imgs:
             d=base64.b64encode(img.photo).decode("utf-8")
             imginfolist[img.id] = [img.email,d,img.about]
-        json = jsonify(imginfolist)
+        with open('mydata.json', 'w') as f:
+            json.dump(imginfolist, f)
+        with open('mydata.json') as user_file:
+            jjson[1] = user_file.read()
+        
     load()
     
 
@@ -78,7 +83,7 @@ def index():
 
 @app.route("/api")
 def api():
-    return json
+    return jjson[1]
 
 @app.route("/view", methods=["GET","POST"])
 def view():
