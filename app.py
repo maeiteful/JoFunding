@@ -61,9 +61,9 @@ with app.app_context():
         for img in imgs:
             d=base64.b64encode(img.photo).decode("utf-8")
             imginfolist[img.id] = [img.email,d,img.about]
-        with open('mydata.json', 'w') as f:
-            json.dump(imginfolist, f)
-        with open('mydata.json') as user_file:
+        with open('static\mydata.json', 'w') as f:
+             json.dump(imginfolist, f, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, cls=None, indent=None, separators=None)
+        with open('static\mydata.json') as user_file:
             jjson[1] = user_file.read()
         
     load()
@@ -79,7 +79,7 @@ def after_request(response):
 
 @app.route("/")
 def index():
-    return render_template("index.html", img=imginfolist)
+    return render_template("index.html", img=jjson[1])
 
 @app.route("/api")
 def api():
