@@ -54,11 +54,13 @@ with app.app_context():
     imagelist =[]
     imageids= []
     imginfolist={}
+    json= None
     def load():
         imgs = Post.query.all()
         for img in imgs:
             d=base64.b64encode(img.photo).decode("utf-8")
             imginfolist[img.id] = [img.email,d,img.about]
+        json = jsonify(imginfolist)
     load()
     
 
@@ -76,7 +78,7 @@ def index():
 
 @app.route("/api")
 def api():
-    return jsonify(imginfolist)
+    return json
 
 @app.route("/view", methods=["GET","POST"])
 def view():
