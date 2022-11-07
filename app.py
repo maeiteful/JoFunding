@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 from PIL import Image
+import pip 
 import base64
 import io
 import os
@@ -39,11 +40,13 @@ class Post(db.Model):
     email = db.Column(db.String, unique=False, nullable=False)
     photo = db.Column(db.LargeBinary, unique=False, nullable=False)
     about = db.Column(db.String, nullable=False)
+    duration =db.Column(db.Integer, nullable=False)
 class Images:
-    def __init__(self,email,image,about):
+    def __init__(self,email,image,about,duration):
         self.email = email
         self.image = image
         self.about = about
+        self.duration = duration
         
     
 
@@ -74,6 +77,15 @@ def index():
 @app.route("/api")
 def api():
     return jsonify(imginfolist)
+
+@app.route("/view", methods=["GET","POST"])
+def view():
+    if request.method == "GET":
+        args = request.args
+        key = args.get("key")
+        return render_template("view.html", id = key)
+    
+
 @app.route("/logout")
 def logout():
     """Log user out"""
@@ -92,6 +104,7 @@ def submit():
         email = request.form.get("email")
         pic = request.files['photo']
         about = request.form.get("about")
+        duration = request.form.get("duration")
         
         filename = secure_filename(pic.filename)
         mimetype = pic.mimetype
@@ -99,14 +112,16 @@ def submit():
         
         
         if not pic:
-            return render_template("submit.html", error=False, msg="please upload a photo")
+            return render_template("submit.html", error=True, msg="please upload a photo")
         if not email:
-            return render_template("submit.html", error=False, msg="please enter your email")
+            return render_template("submit.html", error=True, msg="please enter your email")
         if not about:
-            return render_template("submit.html", error=False, msg="please write about your business")
+            return render_template("submit.html", error=True, msg="please write about your business")
+        if not duration:
+            return render_template("submit.html", error=True, msg="please enter the duration")
         
         
-        post = Post(email=email, photo=pic.read(), about=about)
+        post = Post(email=email, photo=pic.read(), about=about, duration=duration)
         db.session.add(post)
         db.session.commit()
         load()

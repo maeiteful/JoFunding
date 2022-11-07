@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+View
+{% endblock %}
+
+{% block main %}
+<style>
+#card text-center{
+    max-width: 30px;
+  }
+</style>
+<div>
+  <div class="row">
+    <div class="col">
+    </div>
+    <div class="col-5">
+      <div id="card" class="card text-center">
+        <div id="header" class="card-header"></div>
+        <div class="card-body">
+          <h5 class="card-title">Name of Business</h5>
+          <div value="{{ id }}" id="main"><div id="test"></div></div>
+          <a href="/" class="btn btn-primary">Back to Mainpage</a>
+        </div>
+        <div class="card-footer text-muted">
+          2 days ago
+        </div>
+      </div>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+</div>
+<script>
+    url = "/api";
+    var string  = "";
+    const key = document.getElementById("main").getAttribute("value");
+    axios.get(url)
+    .then(function (response) {
+            var data = response.data;
+                string = `
+          <img src="data:;base64,${data[key][1]}" class="card-img-top" width="500" height="700">
+            <p class="card-text">${data[key][2]}</p>
+            <p class="card-text"></p>`;
+            document.getElementById('test').innerHTML = string;
+            document.getElementById('header').innerText = data[key][0];
+            })
+
+</script>
+
+{% endblock %}

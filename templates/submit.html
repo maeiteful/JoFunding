@@ -1,59 +1,119 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Submit
+Submit
 {% endblock %}
 
 {% block main %}
 
-    {% if error == True%}
-    <div class="alert alert-danger" role="alert">
-    {{msg}}
+{% if error == True%}
+<div class="alert alert-danger" role="alert">
+  {{msg}}
+</div>
+{%endif%}
+
+<form class="form-horizontal" action="/submit" method="post" enctype="multipart/form-data">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col-6">
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+        </div>
+      </div>
+      <div class="col">
+      </div>
     </div>
-    {%endif%}
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col-6">
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Photo</label>
+          <input class="form-control" type="file" name="photo" id="photo">
+        </div>
+      </div>
+      <div class="col">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col-6">
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label">About your business</label>
+          <textarea class="form-control" id="about" name="about" rows="3" id="duration"></textarea>
+        </div>
+      </div>
+      <div class="col">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col-6">
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" id="text" class="form-label">Duration: </label>
+          <input type="range" min="1" max="12" value="6" class="slider" id="duration" name="duration">
+          <style>
+            .slidecontainer {
+              width: 100%;
+            }
 
-    <form class="form-horizontal" action="/submit" method="post" enctype="multipart/form-data">             
-          <div class="container">
-            <div class="row">
-              <div class="col">
-              </div>
-              <div class="col-6">
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
-                  </div>
-              </div>
-              <div class="col">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-              </div>
-              <div class="col-6">
-                <div class="mb-3">
-                    <label for="formFile" class="form-label">Photo</label>
-                    <input class="form-control" type="file" name="photo" id="photo">
-                  </div>
-              </div>
-              <div class="col">
-              </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                </div>
-                <div class="col-6">
-                    <div class="mb-3">
-                      <label for="exampleFormControlTextarea1" class="form-label">About your business</label>
-                      <textarea class="form-control" id="about" name="about" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="col">
-                </div>
-              </div>
-          </div>
+            .slider {
+              -webkit-appearance: none;
+              width: 100%;
+              height: 15px;
+              border-radius: 5px;
+              background: #d3d3d3;
+              outline: none;
+              opacity: 0.7;
+              -webkit-transition: .2s;
+              transition: opacity .2s;
+            }
 
-          <button id="submit" class="btn btn-primary" type="submit">Submit</button>
-    </form>
+            .slider:hover {
+              opacity: 1;
+            }
 
+            .slider::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 25px;
+              height: 25px;
+              border-radius: 5px;
+              background: #0000FF;
+              cursor: pointer;
+            }
+
+            .slider::-moz-range-thumb {
+              width: 25px;
+              height: 25px;
+              border-radius: 15px;
+              background: #0000FF;
+              cursor: pointer;
+            }
+          </style>
+        </div>
+      </div>
+      <div class="col">
+      </div>
+    </div>
+  </div>
+
+  <button id="submit" class="btn btn-primary" type="submit">Submit</button>
+</form>
+
+<script>
+  var Duration =document.getElementById("duration");
+  var months = document.getElementById("text")
+  months.innerHTML = "Duration: "+ Duration.value +" Months";
+  Duration.oninput = function() {
+    months.innerHTML ="Duration: "+this.value+" Months";
+  }
+
+</script>
 
 {% endblock %}
