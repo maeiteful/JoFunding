@@ -1,5 +1,5 @@
 const keys = document.getElementById("main").getAttribute("value");
-data = $.getJSON("./static/mydata.json", function ( data ){
+data = JSON.parse(document.getElementById("data").innerText);
     var items = [];
     string = ""
     $.each( data, function( key, val ) {
@@ -13,4 +13,3 @@ data = $.getJSON("./static/mydata.json", function ( data ){
         }
     });
     document.getElementById('objects').innerHTML = string;
-  });

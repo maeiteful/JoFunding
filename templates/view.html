@@ -6,11 +6,7 @@ View
 {% endblock %}
 
 {% block main %}
-<style>
-#card text-center{
-    max-width: 30px;
-  }
-</style>
+<option id="data" hidden> {{img}} </option>
 <div>
   <div class="row">
     <div class="col">
@@ -32,6 +28,5 @@ View
     </div>
   </div>
 </div>
-<script src="static\mydata.json"></script>
 <script src="static\view.js"></script>
 {% endblock %}

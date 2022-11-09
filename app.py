@@ -1,5 +1,5 @@
 import json
-from flask import Flask, jsonify, render_template, request, redirect, flash, session
+from flask import Flask, jsonify, render_template, request, redirect, flash, session, stream_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -61,10 +61,7 @@ with app.app_context():
         for img in imgs:
             d=base64.b64encode(img.photo).decode("utf-8")
             imginfolist[img.id] = [img.email,d,img.about]
-        with open('static\mydata.json', 'w') as f:
-             json.dump(imginfolist, f, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, cls=None, indent=None, separators=None)
-        with open('static\mydata.json') as user_file:
-            jjson[1] = user_file.read()
+        jjson[1] = json.dumps(imginfolist, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, cls=None, indent=None, separators=None)
         
     load()
     
@@ -79,7 +76,7 @@ def after_request(response):
 
 @app.route("/")
 def index():
-    return render_template("index.html", img=jjson[1])
+    return stream_template("index.html", img=jjson[1])
 
 @app.route("/api")
 def api():
@@ -90,7 +87,7 @@ def view():
     if request.method == "GET":
         args = request.args
         key = args.get("key")
-        return render_template("view.html", id = key)
+        return stream_template("view.html", id = key, img=jjson[1])
     
 
 @app.route("/logout")

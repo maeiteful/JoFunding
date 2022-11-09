@@ -1,4 +1,5 @@
-data = $.getJSON("./static/mydata.json", function ( data ){
+  data = JSON.parse(document.getElementById("data").innerText);
+  console.log(data)
   var items = [];
   string = ""
   $.each( data, function( key, val ) {
@@ -23,4 +24,3 @@ data = $.getJSON("./static/mydata.json", function ( data ){
            </div>`
   });
   document.getElementById('objects').innerHTML = string;
-});
