@@ -42,12 +42,14 @@ class Post(db.Model):
     photo = db.Column(db.LargeBinary, unique=False, nullable=False)
     about = db.Column(db.String, nullable=False)
     duration =db.Column(db.Integer, nullable=False)
+    business_name =db.Column(db.String, nullable=False)
 class Images:
-    def __init__(self,email,image,about,duration):
+    def __init__(self,email,image,about,duration,business_name):
         self.email = email
         self.image = image
         self.about = about
         self.duration = duration
+        self.business_name = business_name
         
     
 
@@ -109,23 +111,24 @@ def submit():
         pic = request.files['photo']
         about = request.form.get("about")
         duration = request.form.get("duration")
+        business_name = request.form.get("business_name")
         
         filename = secure_filename(pic.filename)
         mimetype = pic.mimetype
         
-        
-        
-        if not pic:
-            return render_template("submit.html", error=True, msg="please upload a photo")
+        if not business_name:
+            return render_template("submit.html", error=True, msg="please enter the name")
         if not email:
             return render_template("submit.html", error=True, msg="please enter your email")
+        if not pic:
+            return render_template("submit.html", error=True, msg="please upload a photo")
         if not about:
             return render_template("submit.html", error=True, msg="please write about your business")
         if not duration:
             return render_template("submit.html", error=True, msg="please enter the duration")
         
         
-        post = Post(email=email, photo=pic.read(), about=about, duration=duration)
+        post = Post(email=email, photo=pic.read(), about=about, duration=duration, business_name=business_name)
         db.session.add(post)
         db.session.commit()
         load()
@@ -153,6 +156,7 @@ def register():
         if user_object:
             return render_template("register.html",error=True, msg="Username taken")
         hash = generate_password_hash(password)
+        
         
         user = User(username=username, password=hash)
         db.session.add(user)
